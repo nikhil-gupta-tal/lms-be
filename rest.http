@@ -1,0 +1,67 @@
+### REST API Testing with HTTP Client
+@baseUrl = http://localhost:3000/api
+
+### Health Check
+GET  {{baseUrl}}/health HTTP/1.1
+
+### Auth API
+
+### Login
+# @name loginUser
+POST  {{baseUrl}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "allen.doe@example.com",
+  "password": "password"
+}
+
+### Cookie is set automatically by the server via Set-Cookie header
+
+### Register
+# @name registerUser
+POST  {{baseUrl}}/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Allen Doe",
+  "email": "allen.doe@example.com",
+  "password": "password"
+}
+
+### Logout
+POST  {{baseUrl}}/auth/logout HTTP/1.1
+
+### User Profile — Get
+# @name getProfile
+GET  {{baseUrl}}/users/profile HTTP/1.1
+
+### User Profile — Update
+# @name updateProfile
+PATCH  {{baseUrl}}/users/profile HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Allen Smith",
+  "email": "allen.smith@example.com"
+}
+
+### User Profile — Update (partial)
+PATCH  {{baseUrl}}/users/profile HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Allen Doe"
+}
+
+### User Password — Change
+# @name changePassword
+POST  {{baseUrl}}/users/change-password HTTP/1.1
+Content-Type: application/json
+
+{
+  "currentPassword": "password",
+  "newPassword": "newpassword123",
+  "confirmNewPassword": "newpassword123"
+}
+
