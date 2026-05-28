@@ -10,15 +10,55 @@ NestJS API for a Learning Management System. Auth + user management on PostgreSQ
 - pnpm
 - Docker
 
-## Getting Started
+## Development Setup
 
 ```bash
+# 1. Install dependencies
 pnpm install
+
+# 2. Start PostgreSQL and Adminer
 pnpm run db:dev
+
+# 3. Configure environment
+cp .env.example .env
+
+# 4. Start dev server with watch mode
 pnpm run start:dev
 ```
 
-Copy `.env.example` to `.env` and adjust if needed.
+Dev server runs at `http://localhost:3000`.
+
+## Production (Docker)
+
+Build and run the production image with Docker Compose. `DB_HOST=db` is set automatically in docker-compose.yml — no need to change `.env` for that.
+
+```bash
+# 1. Set production environment variables
+cp .env.example .env
+# Edit .env — use a strong JWT_SECRET
+
+# 2. Build and start
+docker compose build
+docker compose up -d
+
+# 3. Smoke test — health, register, profile
+curl http://localhost:3000/api/health
+
+curl -X POST http://localhost:3000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Test User","email":"test@example.com","password":"Test1234!"}' \
+  -c cookies.txt
+
+curl http://localhost:3000/api/users/profile -b cookies.txt
+
+rm cookies.txt
+
+# 4. Tail logs
+docker compose logs -f
+
+# 5. Stop
+docker compose down
+```
 
 ## Scripts
 
