@@ -3,7 +3,7 @@ services:
     build: .
     ports:
       - "3000:3000"
-    env_file: .env
+    env_file: .env.production.local
     environment:
       DB_HOST: db
     depends_on:
@@ -14,17 +14,18 @@ services:
   db:
     image: postgres:16-alpine
     restart: unless-stopped
+    env_file: .env.production.local
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres}"]
       interval: 5s
       timeout: 5s
       retries: 5
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: testDB
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
 
 volumes:
   db_data:

@@ -30,12 +30,12 @@ Dev server runs at `http://localhost:3000`.
 
 ## Production (Docker)
 
-Build and run the production image with Docker Compose. `DB_HOST=db` is set automatically in docker-compose.yml — no need to change `.env` for that.
+Build and run the production image with Docker Compose. `DB_HOST=db` is set automatically in docker-compose.yml — credentials come from `.env.production.local`.
 
 ```bash
 # 1. Set production environment variables
-cp .env.example .env
-# Edit .env — use a strong JWT_SECRET
+cp .env.example .env.production.local
+# Edit .env.production.local — use a strong JWT_SECRET, set NODE_ENV=production
 
 # 2. Build and start
 docker compose build
